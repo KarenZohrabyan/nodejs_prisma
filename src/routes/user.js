@@ -59,14 +59,30 @@ router.post('/createUser', async (req, res) => {
 
 router.get('/allUsers', async (req, res) => {
     const users = await user.findMany({
-        select: {
-            id: true,
-            username: true,
-            posts: true
+        include: {
+            posts: {
+                select: {
+                    id: true,
+                    title: true
+                },
+                orderBy: {
+                    id: 'asc'
+                }
+            }
         },
-        // where: {
-        //     id: 3
-        // }
+        // select: {
+        //     id: true,
+        //     username: true,
+        //     posts: {
+        //         select: {
+        //             id: true,
+        //             title: true
+        //         }
+        //     }
+        // },
+        orderBy: {
+            id: 'asc'
+        }
     })
 
     res.json(users);
